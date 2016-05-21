@@ -32,14 +32,13 @@ void		w_set_map(t_app *app, t_list **lst)
 		exit(1);
 	}
 	w_clear_list(lst);
-
 }
 
 void		w_set_map_or_directive(t_app *app, t_list **lst,
 	char *line)
 {
 	int		size;
-	char 	*new_line;
+	char	*new_line;
 
 	size = 0;
 	new_line = NULL;
@@ -107,14 +106,12 @@ void		w_read_map(t_app *app, char *file)
 		w_print_error_exit("Erreur d'ouverture du fichier : ", file);
 	while (get_next_line(fd, &line) > 0)
 	{
-
 		if (line[0])
 			w_set_map_or_directive(app, &lst, line);
 		ft_strdel(&line);
 	}
 	if (app->map.y == 0)
 	{
-
 		ft_putstr_fd("Mauvais format de fichier\n", 2);
 		exit(1);
 	}

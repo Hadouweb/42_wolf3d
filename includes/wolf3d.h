@@ -18,7 +18,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <time.h>
-#include <stdio.h>
 
 # define SIZE_W 960
 # define SIZE_H 540
