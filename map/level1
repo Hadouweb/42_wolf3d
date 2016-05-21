@@ -1,0 +1,19 @@
+4 4 4 4 4 4 4 4 4 4
+4 0 0 6 0 0 0 0 0 4
+4 0 0 6 0 0 0 0 0 4
+4 0 0 6 0 0 2 0 0 4
+4 0 0 0 0 0 2 0 0 4
+4 0 0 6 0 0 0 0 0 4
+4 0 0 6 0 5 0 5 0 4
+4 0 0 6 0 0 0 5 0 4
+4 0 0 6 0 5 0 5 0 4
+4 4 4 4 4 4 4 4 4 4
+
+!0start_pos_x: 5
+!1start_pos_y: 5
+
+!2texture: textures/wall8.xpm
+!3texture: textures/wall9.xpm
+!4texture: textures/wall1.xpm
+!5texture: textures/wall11.xpm
+!6texture: textures/wall12.xpm
