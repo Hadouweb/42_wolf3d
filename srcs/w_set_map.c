@@ -22,6 +22,23 @@ void		w_set_directive(t_app *app, char *str, int i)
 		w_set_texture(app, &str[i], str[1]);
 }
 
+void		w_clear_list(t_list **lst)
+{
+	t_list	*l;
+	t_list	*tmp;
+	char 	*str;
+
+	l = *lst;
+	while (l)
+	{
+		tmp = l;
+		l = l->next;
+		str = (char*)tmp->content;
+		free(str);
+		free(tmp);
+	}
+}
+
 void		w_set_map(t_app *app, t_list **lst)
 {
 	if (app->map.y == 0)
@@ -36,32 +53,36 @@ void		w_set_map(t_app *app, t_list **lst)
 		ft_putstr_fd("Mauvaise position de la camera\n", 2);
 		exit(1);
 	}
-	ft_lstdel(lst, w_del_node);
+	ft_lstprint(*lst, NULL);
+	w_clear_list(lst);
+	//ft_lstdel(lst, w_del_node);
 }
 
 void		w_set_map_or_directive(t_app *app, t_list **lst,
-	char *line, int token)
+	char *line)
 {
 	int		size;
+	char 	*new_line;
 
 	size = 0;
+	new_line = NULL;
 	if ((line[0] >= '0' && line[0] <= '9') || line[0] == '!')
 	{
-		if (w_check_line(app, line) == 1)
-			token = 1;
-		if (token == 0)
-			line = ft_del_char(line, ' ');
-		size = ft_strlen(line) + 2;
-		if (line[size - 3] == '0')
-			line[size - 3] = '1';
-		if (line[0] == '0')
-			line[0] = '1';
-		ft_lstpush_back(lst, line, size);
-		ft_strdel(&line);
-		if (token == 0)
+		if (w_check_line(app, line) == 0)
+		{
+			new_line = ft_del_char(line, ' ');
+			ft_strdel(&line);
+			size = ft_strlen(new_line) + 2;
+			if (new_line[size - 3] == '0')
+				new_line[size - 3] = '1';
+			if (new_line[0] == '0')
+				new_line[0] = '1';
+			ft_lstpush_back(lst, new_line, size);
+			ft_strdel(&new_line);
 			app->map.y++;
-		if (size > app->map.x && token == 0)
-			app->map.x = size - 2;
+			if (size > app->map.x)
+				app->map.x = size - 2;
+		}
 	}
 }
 
@@ -98,18 +119,16 @@ void		w_read_map(t_app *app, char *file)
 	int		fd;
 	char	*line;
 	t_list	*lst;
-	int		token;
 
 	fd = open(file, O_RDONLY);
 	lst = NULL;
 	app->player.pos_x = -1;
 	app->player.pos_y = -1;
-	token = 0;
 	if (fd == -1)
 		w_print_error_exit("Erreur d'ouverture du fichier : ", file);
 	while (get_next_line(fd, &line) > 0)
 	{
-		w_set_map_or_directive(app, &lst, line, token);
+		w_set_map_or_directive(app, &lst, line);
 	}
 	w_adjust_limit_map(app, &lst);
 	w_set_map(app, &lst);

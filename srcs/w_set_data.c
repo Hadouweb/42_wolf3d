@@ -45,13 +45,13 @@ int		**w_set_tab(t_list *l, int size)
 	int		i;
 
 	if ((tab = (int **)ft_memalloc(size * sizeof(int *) + 1)) == NULL)
-		return (NULL);
+		w_print_error_exit("Erreur allocation ", "tab");
 	i = 0;
 	while (i < size && l)
 	{
 		if ((tab[i] = (int *)ft_memalloc(l->content_size *
 			sizeof(int)) + 1) == NULL)
-			return (NULL);
+			w_print_error_exit("Erreur allocation ", "tab[i]");
 		w_set_one_dim(&tab[i], l);
 		l = l->next;
 		i++;
