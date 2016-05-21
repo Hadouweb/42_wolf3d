@@ -12,19 +12,37 @@
 
 #include "libft.h"
 
-static t_save	*ft_create_fd(int fd_pnum)
+char		*ft_strcpy_limit(char *str, char n)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	while (str[i] && str[i] != n)
+		i++;
+	dst = (char *)ft_memalloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != n)
+	{
+		dst[i] = str[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+t_save		*ft_create_fd(int fd_pnum)
 {
 	t_save		*fd;
 
-	if ((fd = (t_save *)ft_memalloc(sizeof(t_save))) == NULL)
-		return (NULL);
-	fd->rest = ft_strnew(1);
+	fd = (t_save *)ft_memalloc(sizeof(t_save));
+	fd->rest = ft_memalloc(1);
 	fd->fd_num = fd_pnum;
 	fd->next = NULL;
 	return (fd);
 }
 
-static int		ft_save(t_save **s, char *buf, char **line)
+int			ft_save(t_save **s, char *buf, char **line)
 {
 	char	*eol;
 	char	*tmp;
@@ -52,7 +70,7 @@ static int		ft_save(t_save **s, char *buf, char **line)
 	return (0);
 }
 
-static t_save	*ft_get_list(t_save **s, int fd)
+t_save		*ft_get_list(t_save **s, int fd)
 {
 	t_save			*lst;
 
@@ -69,20 +87,7 @@ static t_save	*ft_get_list(t_save **s, int fd)
 	return (lst);
 }
 
-static int		ft_verif_last_line(t_save *lst, char **line, int ret)
-{
-	if (ret != -1 && lst->rest && (*line = ft_strdup(lst->rest)) != NULL)
-	{
-		if (lst->rest && ft_strlen(lst->rest))
-			ret = 1;
-		else
-			ret = 0;
-		ft_strdel(&lst->rest);
-	}
-	return (ret);
-}
-
-int				get_next_line(int const fd, char **line)
+int			get_next_line(int const fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
 	int				ret;
@@ -101,5 +106,12 @@ int				get_next_line(int const fd, char **line)
 		if (ft_save(&lst, buf, line))
 			return (1);
 	}
-	return (ft_verif_last_line(lst, line, ret));
+	if (ret == 0 && lst->rest && (*line = ft_strdup(lst->rest)) != NULL)
+	{
+		ft_strdel(&lst->rest);
+		return (1);
+	}
+	if (ret == -1)
+		return (-1);
+	return (0);
 }

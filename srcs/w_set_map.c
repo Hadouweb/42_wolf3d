@@ -26,15 +26,13 @@ void		w_clear_list(t_list **lst)
 {
 	t_list	*l;
 	t_list	*tmp;
-	char 	*str;
 
 	l = *lst;
 	while (l)
 	{
 		tmp = l;
 		l = l->next;
-		str = (char*)tmp->content;
-		free(str);
+		free(tmp->content);
 		free(tmp);
 	}
 }
@@ -71,7 +69,6 @@ void		w_set_map_or_directive(t_app *app, t_list **lst,
 		if (w_check_line(app, line) == 0)
 		{
 			new_line = ft_del_char(line, ' ');
-			ft_strdel(&line);
 			size = ft_strlen(new_line) + 2;
 			if (new_line[size - 3] == '0')
 				new_line[size - 3] = '1';
@@ -129,6 +126,7 @@ void		w_read_map(t_app *app, char *file)
 	while (get_next_line(fd, &line) > 0)
 	{
 		w_set_map_or_directive(app, &lst, line);
+		ft_strdel(&line);
 	}
 	w_adjust_limit_map(app, &lst);
 	w_set_map(app, &lst);
