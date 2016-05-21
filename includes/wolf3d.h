@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <time.h>
+#include <stdio.h>
 
 # define SIZE_W 960
 # define SIZE_H 540
@@ -151,7 +152,7 @@ t_vline				w_get_vline(int x, int y_start, int y_end, t_color color);
 void				w_set_pixel(t_obj *obj, int x, int y, t_color color);
 t_color				w_get_color(unsigned char r, unsigned char g,
 	unsigned char b, unsigned char a);
-t_obj				*w_init_obj_info(void *mlx, int width, int height);
+t_obj				*w_init_obj_info(t_app *app, int width, int height);
 
 void				w_del_node(void *content, size_t content_size);
 t_color				w_get_cardinal_color(t_app *app);
@@ -201,5 +202,6 @@ t_color				w_get_cardinal_color(t_app *app);
 
 void				w_draw_color_or_texture(t_app *app, double perp_wall_dist,
 	int x, char elem);
+void				w_clear_list(t_list **lst);
 
 #endif

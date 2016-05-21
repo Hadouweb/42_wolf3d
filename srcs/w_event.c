@@ -51,7 +51,5 @@ int			w_event(int keycode, t_app *app)
 	{
 		app->speed = MOVE_SPEED;
 	}
-	if (app)
-		;
 	return (1);
 }

@@ -14,7 +14,7 @@
 
 void			w_draw(t_app *app)
 {
-	mlx_clear_window(app->mlx, app->win);
+//	mlx_clear_window(app->mlx, app->win);
 	mlx_put_image_to_window(app->mlx, app->win, app->obj->img, 0, 0);
 	mlx_string_put(app->mlx, app->win, 20, 10, 0xFFFFFF, "FPS : ");
 	mlx_string_put(app->mlx, app->win, 80, 10, 0xFFFFFF, app->fps.str_fps);
@@ -33,13 +33,13 @@ void			w_set_pixel(t_obj *obj, int x, int y, t_color color)
 	obj->data[index + 2] = color.b;
 }
 
-t_obj			*w_init_obj_info(void *mlx, int width, int height)
+t_obj			*w_init_obj_info(t_app *app, int width, int height)
 {
 	t_obj	*obj;
 
 	if ((obj = (t_obj *)ft_memalloc(sizeof(t_obj))) == NULL)
 		ft_putstr_fd("Erreur d'allocation de t_obj\n", 2);
-	obj->img = mlx_new_image(mlx, width, height);
+	obj->img = mlx_new_image(app->mlx, width, height);
 	obj->data = mlx_get_data_addr(obj->img,
 		&obj->bpp,
 		&obj->sizeline,

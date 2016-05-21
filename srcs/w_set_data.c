@@ -31,9 +31,9 @@ void	w_set_one_dim(int **tab, t_list *l)
 
 	i = 0;
 	str = (char*)l->content;
-	while (i < l->content_size)
+	while (i < l->content_size && str[i])
 	{
-		(*tab)[i] = (int)str[i] - '0';
+		(*tab)[i] = (int)(str[i] - '0');
 		i++;
 	}
 	(*tab)[i] = '\0';

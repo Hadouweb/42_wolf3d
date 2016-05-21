@@ -31,3 +31,21 @@ void		w_print_fps(t_app *app)
 	}
 	app->fps.delay++;
 }
+
+void		w_clear_list(t_list **lst)
+{
+	t_list	*l;
+	t_list	*tmp;
+
+	l = *lst;
+	tmp = NULL;
+	while (l)
+	{
+		tmp = l;
+		l = l->next;
+		ft_strdel((char**)&tmp->content);
+		free(tmp);
+		tmp = NULL;
+	}
+	*lst = NULL;
+}
